@@ -1,1 +1,2 @@
 # leetcode
+Try harder.
