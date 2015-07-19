@@ -10,37 +10,23 @@ class Solution {
 public:
     ListNode* insertionSortList(ListNode* head) {
         if (head==NULL) return head;
-        ListNode *phead=new ListNode (0);
-        phead->next = new ListNode (head->val);
-        ListNode *p=phead->next, *cur=head->next;
+        ListNode *nh = new ListNode(0);
+        nh -> next = head;
+        ListNode *pre=nh, *cur=head;
         while (cur)
         {
-            if (phead->next->val > cur->val) 
+            if (cur->next && cur->next->val < cur->val)
             {
-                ListNode *tmp=phead->next;
-                phead->next=cur;
-                cur=cur->next;
-                phead->next->next=tmp;
+                while (pre->next && pre->next->val < cur->next->val) pre=pre->next;
+                ListNode *tmp=pre->next;
+                pre->next=cur->next;
+                cur->next=cur->next->next;
+                pre->next->next=tmp;
+                pre=nh;
             }
             else
-            {
-                while (cur->val > p->val && p->next) p=p->next;
-                if (p->next==NULL)
-                {
-                    p->next=cur;
-                    cur=cur->next;
-                    p->next->next=NULL;
-                }
-                else
-                {
-                    ListNode *tmp = p->next;
-                    p->next=cur;
-                    cur=cur->next;
-                    p->next->next=tmp;
-                }
-            }
-            p=phead->next;
+                cur = cur->next;
         }
-        return phead->next;
+        return nh->next;
     }
 };
